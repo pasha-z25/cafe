@@ -1,10 +1,20 @@
 <template>
+  <v-header></v-header>
   <div id="nav">
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>
   </div>
   <router-view/>
 </template>
+
+<script>
+import VHeader from "@/layouts/Header";
+
+export default {
+  name: 'App',
+  components: { VHeader }
+}
+</script>
 
 <style>
 #app {

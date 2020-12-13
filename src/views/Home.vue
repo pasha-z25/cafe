@@ -4,6 +4,7 @@
     <div class="content">
       <button @click="getData">Get Data</button>
     </div>
+    <preloader/>
   </div>
 </template>
 
@@ -14,10 +15,11 @@ import 'firebase/auth'
 import 'firebase/database'
 import 'firebase/storage'
 import 'firebase/messaging'
+import Preloader from "@/components/Preloader";
 
 export default {
   name: 'Home',
-  components: {},
+  components: {Preloader},
   methods: {
     getData() {
       let result;
@@ -36,22 +38,17 @@ export default {
         measurementId: "G-GJT4XQ7NBG"
       };
 
-      function getProp(obj) {
-        for(var key in obj) {
-          if(typeof(obj[key]) === 'object') {
-            getProp(obj[key]);
-          } else {
-            console.log(`Key: ${key} , Value: ${obj[key]}`)
-          }
-        }
-      }
-
       var app = firebase.initializeApp(firebaseConfig);
+
       app.database().ref().once('value').then(res => {
         result = res.val();
         console.log(result);
-        getProp(result);
-      });
+      }).catch(console.log);
+
+      var storage = app.storage().ref().child('burgers/gamburger.jpg');
+      storage.getDownloadURL().then(url => {
+        console.log(url);
+      }).catch(console.log);
 
     }
   }
